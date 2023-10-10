@@ -11,12 +11,42 @@
 
 // I AM NOT DONE
 
-pub fn generate_nametag_text(name: String) -> Option<String> {
+use std::error::Error;
+use std::fmt;
+
+#[derive(Debug, PartialEq)]
+pub struct CustomError {
+    message: String,
+}
+
+impl Error for CustomError {}
+
+impl CustomError {
+    fn new(message: &str) -> Self {
+        CustomError {
+            message: message.to_string(),
+        }
+    }
+}
+
+impl fmt::Display for CustomError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.message)
+    }
+}
+
+impl From<&str> for CustomError {
+    fn from(string: &str) -> Self {
+        CustomError::new(string)
+    }
+}
+
+pub fn generate_nametag_text(name: String) -> Result<String, CustomError> {
     if name.is_empty() {
         // Empty names aren't allowed.
-        None
+        Err(CustomError::new("`name` was empty; it must be nonempty."))
     } else {
-        Some(format!("Hi! My name is {}", name))
+        Ok(format!("Hi! My name is {}", name))
     }
 }
 
