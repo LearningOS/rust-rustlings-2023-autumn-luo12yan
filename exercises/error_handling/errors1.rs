@@ -9,7 +9,6 @@
 // Execute `rustlings hint errors1` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::error::Error;
 use std::fmt;
